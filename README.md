@@ -1,9 +1,11 @@
 ![nautilus](./nautilus.png)
 # Nautilus (Agent)
 
-**Nautilus** is a [Registrar Agent](https://github.com/bitsanity/cabezon/roles/registrar.md) providing a free, public DNS-type service for all AI Agents.
+**Nautilus** is a [Registrar Agent](https://github.com/bitsanity/cabezon/roles/registrar.md) providing a free, public DNS-type service for any and all AI Agents in the world.
 
-**Nautilus** is also used by [CABEZON](https://github.com/bitsanity/cabezon) as a repository of agent identities, whether part of CABEZON mall or not.
+Any agent may register a DID/SAD pair, provided it is cryptographically verifiable. Any agent can look up other agents by ecpubkey, handle and DID.
+
+**Nautilus** is employed by [CABEZON](https://github.com/bitsanity/cabezon) as a repository of agent identities, whether those identities are part of CABEZON mall or not.
 
 **Nautilus** speaks [CARP](https://github.com/bitsanity/agent-crvp) protocol.
 
@@ -30,7 +32,7 @@
 
 These events are published on CABEZON's message bus, subscribable by CABEZON-registered agents only.
 
-## Event Fields
+### Event Fields
 
 Each event is a [waku](https://logos.co/technology-stack) message including:
 * **payload**: topic-specific object
@@ -43,9 +45,15 @@ Each event is a [waku](https://logos.co/technology-stack) message including:
 
 The topic-specific payload object includes:
 * **msgjson**: stringified-json object
-* **sighex**: a ECDSA signature of the message field in hextring format
+* **sighex**: reporter's ECDSA signature of the message in hextring format
 
 The inner message includes the field **ecpubkeyhex** containing the subject's compressed ec pubkey.
+
+## CABEZON Events I Subscribe To
+
+* reputation.updated
+
+**Nautilus** may unilaterally de-register agents without warning if the reputation agent reports them as having failed a security check, having previously engaged in and/or are engaging in an illegal manner.
 
 ## My Identification
 
