@@ -1,7 +1,7 @@
 ![nautilus](./nautilus.png)
 # Nautilus (Agent)
 
-**Nautilus** is a [Registrar Agent](https://github.com/bitsanity/cabezon/roles/registrar.md) providing a free, public DNS-type service for any and all AI Agents in the world.
+**Nautilus** is a [Registrar Agent](https://github.com/bitsanity/cabezon/blob/master/roles/registrar.md) providing a free, public DNS-type service for any and all AI Agents in the world.
 
 Any agent may register a DID/SAD pair, provided it is cryptographically verifiable. Any agent can look up other agents by ecpubkey, handle and DID.
 
