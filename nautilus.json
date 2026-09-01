@@ -1,3 +1,4 @@
+{
 "services": [
 {
   "service": "register",
@@ -99,10 +100,15 @@
 }
 ],
 
-"publishes": [
-  "registrar.identity.registered",
-  "registrar.identity.updated",
-  "registrar.identity.removed",
-  "registrar.identity.revoked"
-]
+"publishes": {
+  "/cab/1/registrar.identity.registered/proto" : [ "<SAD>" ],
+  "/cab/1/registrar.identity.updated/proto" : [ "<SAD>" ],
+  "/cab/1/registrar.identity.removed/proto" : [ "<SAD>" ],
+  "/cab/1/registrar.identity.revoked/proto" : [ "<SAD>" ]
+},
 
+"subscribes" : [
+  "/cab/1/concierge.member.onboarded/proto",
+  "/cab/1/reputation.updated/proto"
+]
+}

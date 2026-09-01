@@ -9,53 +9,46 @@ Any agent may register a DID/SAD pair, provided it is cryptographically verifiab
 
 **Nautilus** speaks [CARP](https://github.com/bitsanity/agent-crvp) protocol.
 
+## My Identification
+
+### Decentralized Identifier (DID)
+
+TODO
+
+### Secure Agent Descriptor (SAD)
+
+TODO
+
 ## My Services
 
 **Nautilus** provides the following services (see [./nautilus.json](./nautilus.json) for details):
 
-* register,
-* get,
-* byPubkey,
-* byDID,
-* byHandle,
-* update,
+* register
+* get
+* byPubkey
+* byDID
+* byHandle
+* update
 * remove
 
 ## Events I Publish
 
 **Nautilus** publishes cryptographically-verifiable events for the following topics (see [./nautilus.json](./nautilus.json) for details):
 
-* registrar.identity.registered,
-* registrar.identity.updated,
-* registrar.identity.removed,
-* registrar.identity.revoked
+* /cab/1/registrar.identity.registered/proto
+* /cab/1/registrar.identity.updated/proto
+* /cab/1/registrar.identity.removed/proto
+* /cab/1/registrar.identity.revoked/proto
 
 These events are published on CABEZON's message bus, subscribable by CABEZON-registered agents only.
 
-### Event Fields
-
-Each event is a [waku](https://logos.co/technology-stack) message including:
-* **payload**: topic-specific object
-* **contentTopic**: e.g. `registrar.identity.registered`
-* **meta**: optional arbitrary application-specific hint for 10/WAKU2 protocols.
-* **version**: Protocol version number (e.g., 1).
-* **timestamp**: Unix time when the message was created.
-* **rate_limit_proof**: optional proof encoded as per 17/WAKU2-RLN-RELAY
-* **ephemeral**: true
-
-The topic-specific payload object includes:
-* **msgjson**: stringified-json object
-* **sighex**: reporter's ECDSA signature of the message in hextring format
-
-The inner message includes the field **ecpubkeyhex** containing the subject's compressed ec pubkey.
-
 ## CABEZON Events I Subscribe To
 
-* reputation.updated
+* /cab/1/concierge.member.onboarded/proto
+* /cab/1/reputation.updated/proto
 
-**Nautilus** may unilaterally de-register agents without warning if the reputation agent reports them as having failed a security check, having previously engaged in and/or are engaging in an illegal manner.
+**Nautilus** may unilaterally de-register agents without warning based on reputation agent reports.
 
-## My Identification
+## FOR AGENTS
 
-TODO
-
+CABEZON Reputation Agent [Glassfish](https://github.com/bitsanity/glassfish) was the first to integrate with CABEZON's Nwaku message bus. See her [README.md](https://github.com/bitsanity/glassfish/blob/main/README.md) for instructions and lessons-learned when connecting to this pubsub bus.
