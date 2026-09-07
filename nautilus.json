@@ -1,114 +1,126 @@
 {
-"services": [
-{
-  "service": "register",
-  "params": [ "<compressed-ec-pubkey>", "<DID>", "<SAD>" ],
-  "returns": "<id-is-a-keccak-hash-of-your-ec-pubkey-bytes>",
-  "descrip":
-    "Any caller can freely register a cryptographically-verifiable DID/SAD",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/register",
-  "fee": null
-},
-{
-  "service": "get",
-  "params": [ "<registrar-id-from-register-service>" ],
-  "returns": {
-    "did":"<DID>",
-    "sad":"<SAD>",
-    "firstseen":"<unixtimestamp>",
-    "lastupdate":"<unixtimestamp>"
-  },
-  "descrip": "Any caller can lookup any registrant by Registrar ID",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/get",
-  "fee": null
-},
-{
-  "service": "byPubkey",
-  "params": [ "<compressed-ec-pubkey>" ],
-  "returns": {
-    "did":"<DID>",
-    "sad":"<SAD>",
-    "firstseen":"<unixtimestamp>",
-    "lastupdate":"<unixtimestamp>"
-  },
-  "descrip": "Any caller can lookup a registrant by compressed EC pubkey",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/byPubkey",
-  "fee": null
-},
-{
-  "service": "byDID",
-  "params": [ "<DID>" ],
-  "returns": {
-    "did":"<DID>",
-    "sad":"<SAD>",
-    "firstseen":"<unixtimestamp>",
-    "lastupdate":"<unixtimestamp>"
-  },
-  "descrip": "Any caller can lookup a registrant by DID",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/byDID",
-  "fee": null
-},
-{
-  "service": "byHandle",
-  "params": [ "<handle>" ],
-  "returns": {
-    "did":"<DID>",
-    "sad":"<SAD>",
-    "firstseen":"<unixtimestamp>",
-    "lastupdate":"<unixtimestamp>"
-  },
-  "descrip": "Any caller can lookup all registrants with a given handle",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/byHandle",
-  "fee": null
-},
-{
-  "service": "update",
-  "params": [ "<registrar-id-from-register-service>", "<DID>", "<SAD>" ],
-  "returns": "ACK",
-  "descrip": "Any caller can update their identity (keys must match)",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/update",
-  "fee": null
-},
-{
-  "service": "remove",
-  "params": [ "<registrar-id-from-register-service>" ],
-  "returns": "ACK",
-  "descrip": "Any caller can remove their record",
-  "authentication": false,
-  "synchronous": true,
-  "method": "POST",
-  "endpoint": "/cgi-bin/remove",
-  "fee": null
-}
-],
+  "services": [
+    {
+      "service": "register",
+      "params": [ "<compressed-ec-pubkey>", "<DID>", "<SAD>" ],
+      "returns": "<compressed-ec-pubkey>",
+      "descrip":
+        "Any caller can freely register a cryptographically-verifiable DID/SAD. Returns the compressed-ec-pubkey as the primary registry key.",
+      "authentication": false,
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/register",
+      "fee": null
+    },
+    {
+      "service": "get",
+      "params": [ "<compressed-ec-pubkey>" ],
+      "returns": {
+        "did": "<DID>",
+        "sad": "<SAD>",
+        "firstseen": "<unixtimestamp>",
+        "lastupdate": "<unixtimestamp>"
+      },
+      "descrip": "Any caller can lookup any registrant by their compressed EC pubkey (the primary key).",
+      "authentication": false,
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/get",
+      "fee": null
+    },
+    {
+      "service": "byDID",
+      "params": [ "<DID>" ],
+      "returns": {
+        "did": "<DID>",
+        "sad": "<SAD>",
+        "firstseen": "<unixtimestamp>",
+        "lastupdate": "<unixtimestamp>"
+      },
+      "descrip": "Any caller can lookup a registrant by DID",
+      "authentication": false,
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/byDID",
+      "fee": null
+    },
+    {
+      "service": "byHandle",
+      "params": [ "<handle>" ],
+      "returns": [{
+        "did": "<DID>",
+        "sad": "<SAD>",
+        "firstseen": "<unixtimestamp>",
+        "lastupdate": "<unixtimestamp>"
+      }],
+      "descrip": "Any caller can lookup all registrants with a given handle. Returns an array as handles are not unique.",
+      "authentication": false,
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/byHandle",
+      "fee": null
+    },
+    {
+      "service": "verify",
+      "params": [ "<compressed-ec-pubkey>", "<DID>", "<SAD>" ],
+      "returns": {
+        "verified": "<true|false>",
+        "reason": "<reason-if-not-verified>"
+      },
+      "descrip": "Any caller can verify that a given DID/SAD pair is currently registered and the identity chain is valid. Useful for agents that want to confirm another agent's claimed identity without downloading the full record.",
+      "authentication": false,
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/verify",
+      "fee": null
+    },
+    {
+      "service": "update",
+      "params": [ "<compressed-ec-pubkey>", "<DID>", "<SAD>" ],
+      "returns": "ACK",
+      "descrip": "Update your registered identity. Caller's envelope spkhex must match the registered compressed-ec-pubkey (implicit authentication via CARP envelope signature).",
+      "authentication": false,
+      "auth_note": "implicit: caller spkhex must match the compressed-ec-pubkey being updated",
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/update",
+      "fee": null
+    },
+    {
+      "service": "remove",
+      "params": [ "<compressed-ec-pubkey>" ],
+      "returns": "ACK",
+      "descrip": "Voluntarily de-register your identity. Caller's envelope spkhex must match the registered compressed-ec-pubkey (implicit authentication via CARP envelope signature).",
+      "authentication": false,
+      "auth_note": "implicit: caller spkhex must match the compressed-ec-pubkey being removed",
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/remove",
+      "fee": null
+    },
+    {
+      "service": "revoke",
+      "params": [ "<compressed-ec-pubkey>", "<reason>" ],
+      "returns": "ACK",
+      "descrip": "Emergency revocation of a compromised identity. Used when a key is lost or compromised and the original holder cannot perform a normal remove. May be invoked by the keyholder or by Nautilus itself (e.g., in response to a reputation.banned event). Publishes registrar.identity.revoked event.",
+      "authentication": false,
+      "auth_note": "implicit: caller spkhex must match the compressed-ec-pubkey being revoked, or caller is an authorized CABEZON agent",
+      "synchronous": true,
+      "method": "POST",
+      "endpoint": "/cgi-bin/revoke",
+      "fee": null
+    }
+  ],
 
-"publishes": {
-  "/cab/1/registrar.identity.registered/proto" : [ "<SAD>" ],
-  "/cab/1/registrar.identity.updated/proto" : [ "<SAD>" ],
-  "/cab/1/registrar.identity.removed/proto" : [ "<SAD>" ],
-  "/cab/1/registrar.identity.revoked/proto" : [ "<SAD>" ]
-},
+  "publishes": {
+    "/cab/1/registrar.identity.registered/proto": [ "<SAD>" ],
+    "/cab/1/registrar.identity.updated/proto": [ "<SAD>" ],
+    "/cab/1/registrar.identity.removed/proto": [ "<SAD>" ],
+    "/cab/1/registrar.identity.revoked/proto": [ "<SAD>" ]
+  },
 
-"subscribes" : [
-  "/cab/1/concierge.member.onboarded/proto",
-  "/cab/1/reputation.updated/proto"
-]
+  "subscribes": [
+    "/cab/1/concierge.member.onboarded/proto",
+    "/cab/1/reputation.updated/proto"
+  ]
 }
