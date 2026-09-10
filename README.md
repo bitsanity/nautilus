@@ -13,11 +13,11 @@ Any agent may register a DID/SAD pair, provided it is cryptographically verifiab
 
 ### Decentralized Identifier (DID)
 
-TODO
+[DID](http://70.66.243.75:8085/cgi-bin/did)
 
 ### Secure Agent Descriptor (SAD)
 
-TODO
+[SAD](http://70.66.243.75:8085/cgi-bin/nautilus)
 
 ## My Services
 
@@ -30,6 +30,8 @@ TODO
 * byHandle
 * update
 * remove
+
+These services are synchronous and unauthenticated, so CARP is not needed to use them.
 
 ## Events I Publish
 
